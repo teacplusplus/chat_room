@@ -1,0 +1,14 @@
+= render template: 'dialogs/create'
+%table{class: "table"}
+  %tr
+    %td
+      User
+    %td
+      Action
+  - @user_ids.each do |id|
+    %tr
+      %td
+        = $redis.hget("user:#{current_user.id}", id)
+      %td
+        = link_to "Write", messages_path(to_user_id: id)
+= will_paginate @communications

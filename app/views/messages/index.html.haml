@@ -1,0 +1,26 @@
+= link_to "<< Back <<", dialogs_path
+%strong
+  Dialog with
+  = @to_user_name
+
+- @messages.reverse.each do |message|
+  %p
+    = message.created_at.strftime("%d-%m-%Y %H:%M:%S")
+  %p
+    From:
+    = $redis.hget("user:#{current_user.id}", message.user_id)
+  %p
+    >
+    %i
+      = message.body
+
+= form_tag '/messages', method: "get" do
+  %fieldset
+    = hidden_field_tag :to_user_id, params[:to_user_id]
+    %legend
+      Amount on page
+    = label_tag :amount, "Amount"
+    = select_tag :amount, options_for_select(["6","11","15"],params[:amount]||"6"),  onchange:   "this.form.submit()"
+
+= render template: "messages/create"
+= will_paginate @messages

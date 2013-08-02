@@ -1,0 +1,8 @@
+= form_tag '/messages' do
+  %fieldset
+    %legend
+      Send message
+    = label_tag :body, "Body"
+    = text_area_tag :body
+    = hidden_field_tag :to_user_id, params[:to_user_id]
+    = submit_tag "Send", class: 'btn'
